@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 export const statusSlice = createSlice({
-  name: 'status',
+  name: "status",
   initialState: {
     isLoading: false,
     error: null,
