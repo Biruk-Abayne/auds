@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getFetch } from "./features/audiosSlice";
+import Playere from "./lists/playere";
 
 function App() {
   const audios = useSelector((state) => state.audios.audios);
@@ -18,6 +19,8 @@ function App() {
           <img src={lo.url} alt="ok thank you" />
         </div>
       ))}
+      ;
+      <Playere />
     </div>
   );
 }
