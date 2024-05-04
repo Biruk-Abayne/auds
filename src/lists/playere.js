@@ -25,7 +25,8 @@ function Playere() {
     width: 70%;
     height: 160px;
     border-radius: 3px;
-    margin: 90px;
+    margin-top: 100px;
+    margin-left: 76px;
     background: black;
     color: white;
     display: flex;
@@ -169,7 +170,6 @@ function Playere() {
           <Pik min="0" max="100"></Pik>
         </Kip>
         <Playsec>
-          {" "}
           <Previous onClick={skipBack}>Prev</Previous>
           {isPlaying ? (
             <Pause onClick={Pl}>pau</Pause>

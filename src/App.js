@@ -1,27 +1,27 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getFetch } from "./features/audiosSlice";
 import Playere from "./lists/playere";
+import styled from "@emotion/styled";
+import Songs from "./lists/Songs";
 
 function App() {
-  const audios = useSelector((state) => state.audios.audios);
-  const dispatch = useDispatch();
+  const Mdiv = styled.div`
+    height: 990px;
+    background-image: linear-gradient(
+      to right,
+      white,
+      grey,
+      white,
+      LightGreen,
+      white
+    );
+  `;
 
-  useEffect(() => {
-    dispatch(getFetch());
-  }, [dispatch]);
-  console.log(audios);
   return (
-    <div>
-      {audios.map((lo) => (
-        <div key={lo.id}>
-          <h3>{lo.title} </h3>
-          <img src={lo.url} alt="ok thank you" />
-        </div>
-      ))}
-      ;
-      <Playere />
-    </div>
+    <Mdiv>
+      <div>
+        <Songs />
+        <Playere />
+      </div>
+    </Mdiv>
   );
 }
 export default App;

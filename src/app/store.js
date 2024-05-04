@@ -7,7 +7,7 @@ import audSaga from "../components/Sagac";
 const saga = createSagaMiddleware();
 export const store = configureStore({
   reducer: {
-    status: statusReducer,
+    statu: statusReducer,
     audios: audiosReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(saga),
