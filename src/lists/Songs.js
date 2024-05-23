@@ -1,20 +1,68 @@
 import styled from "@emotion/styled";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getFetch } from "../features/audiosSlice";
+import Playere from "./playere";
+import { Link } from "react-router-dom";
+import audios from "../features/audiosSlice";
 
-function Songs() {
+import {
+  getFetch,
+  setCurrentSongImg,
+  setCurrentSongIndex,
+  setAudios,
+  setbwidth,
+} from "../features/audiosSlice";
+
+function Songs({ audioElem, setIsPlaying, isPlaying }) {
   const audios = useSelector((state) => state.audios.audios);
+
+  const currentSongIndex = useSelector(
+    (state) => state.audios.currentSongIndex
+  );
+
+  const currentSongImg = useSelector((state) => state.audios.currentSongImg);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getFetch());
   }, [dispatch]);
 
+  const Picturect = (loUrl, e) => {
+    dispatch(setCurrentSongImg(loUrl));
+
+    audioElem.current.play();
+
+    var playPromise = audioElem.current.play();
+    audioElem.current.currentTime = 0;
+
+    if (playPromise !== undefined) {
+      playPromise
+        .then((_) => {
+          setIsPlaying(!isPlaying);
+        })
+        .catch((error) => {});
+    }
+  };
+
+  const Indexchr = (event) => {
+    dispatch(setCurrentSongIndex(event));
+  };
+
+  const wnder = audios.map((song) =>
+    song.id !== currentSongIndex ? song : null
+  );
+
+  const filteredArray = wnder.filter((item) => item !== null);
+
+  const handleDelete = (e) => {
+    dispatch(setAudios(filteredArray));
+  };
+
   const Button = styled.div`
     color: blue;
     padding: 5px;
-
+    display: flex;
     background: #eee;
     width: 300px;
     height: 170px;
@@ -22,6 +70,18 @@ function Songs() {
 
     &:hover {
       opacity: 0.7;
+    }
+
+    @media (min-width: 721px) and (max-width: 1533px) {
+      width: 200px;
+      height: 160px;
+    }
+
+    @media (max-width: 720px) {
+      margin-left: 20px;
+      margin-top: 30px;
+      width: 220px;
+      height: 69px;
     }
   `;
 
@@ -33,28 +93,48 @@ function Songs() {
     background: #333;
     width: 350px;
     height: 570px;
+
+    @media (min-width: 721px) and (max-width: 1533px) {
+      height: 450px;
+      width: 290px;
+      margin-left: 13px;
+    }
+
+    @media (max-width: 720px) {
+      margin-left: 20px;
+      height: 400px;
+    }
   `;
-  const Title = styled.p`
-    position: absolute;
-    width: 200px;
+  const Title = styled.h5`
+    width: 300px;
     height: 200px;
     margin: 7px;
+    position: absolute;
+
     color: black;
     text-wight: bold;
-    opacity: 0;
+    opacity: 1;
 
     &:hover {
       opacity: 1;
+    }
+    @media (min-width: 721px) and (max-width: 1533px) {
+      width: 170px;
+      position: absolute;
     }
   `;
   const Div = styled.div`
     color: blue;
     padding: 5px;
-    overflow: auto;
 
     background: #eee;
     width: 300px;
     height: 170px;
+
+    @media (min-width: 721px) and (max-width: 1533px) {
+      width: 210px;
+      padding: 2px;
+    }
   `;
 
   const Frame = styled.div`
@@ -65,6 +145,15 @@ function Songs() {
     margin-top: 23px;
 
     margin-left: 15px;
+
+    @media (min-width: 721px) and (max-width: 1533px) {
+      width: 235px;
+      height: 204px;
+    }
+
+    @media (max-width: 750px) {
+      height: 200px;
+    }
   `;
   const Section = styled.section`
     background: transparent;
@@ -73,6 +162,15 @@ function Songs() {
     align-item: center;
     margin-top: 60px;
     padding-left: 40px;
+
+    @media (min-width: 721px) and (max-width: 1533px) {
+      margin-top: 30px;
+      font-size: 43px;
+      padding-left: 20px;
+    }
+    @media (max-width: 750px) {
+      margin-top: 40px;
+    }
   `;
 
   const Editor = styled.button`
@@ -100,6 +198,9 @@ function Songs() {
     &:hover {
       opacity: 1;
     }
+    @media (min-width: 721px) and (max-width: 1533px) {
+      margin-left: 15px;
+    }
   `;
 
   const Update = styled.button`
@@ -114,6 +215,9 @@ function Songs() {
     &:hover {
       opacity: 1;
     }
+    @media (min-width: 721px) and (max-width: 1533px) {
+      margin-left: 15px;
+    }
   `;
 
   const Hulu = styled.div`
@@ -124,10 +228,32 @@ function Songs() {
     width: 900px;
     height: 657px;
     display: flex;
-    flex-wrap: wrap;
+
+    @media (min-width: 721px) and (max-width: 1533px) {
+      margin-left: 20px;
+      display: flex;
+      width: 520px;
+      position: relative;
+    }
+
+    @media (max-width: 720px) {
+      margin-left: 20px;
+      margin-top: 150px;
+
+      width: 390px;
+      float: right;
+      height: 40px;
+      display: flex;
+    }
   `;
   const Wonder = styled.div`
     display: flex;
+    @media (max-width: 720px) {
+      display: flex;
+      margin-left: 20px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
   `;
 
   const Mzmur = styled.div`
@@ -136,11 +262,25 @@ function Songs() {
     position: absolute;
     padding: 8px;
     height: 630px;
-
     width: 870px;
     flex-wrap: wrap;
     overflow: scroll;
     flex-direction: column;
+
+    @media (min-width: 721px) and (max-width: 1533px) {
+      width: 500px;
+      overflow: scroll;
+      position: absolute;
+      flex-direction: row;
+    }
+
+    @media (max-width: 720px) {
+      margin-left: 20px;
+      margin-top: 30px;
+      flex-direction: row;
+      overflow: auto;
+      width: 350px;
+    }
   `;
 
   const Aga = styled.div`
@@ -150,42 +290,112 @@ function Songs() {
     background: lightblue;
     font-size: 26px;
     text-align: center;
+    color: green;
+
+    @media (min-width: 721px) and (max-width: 1533px) {
+      width: 230px;
+    }
+  `;
+  const Img = styled.img`
+    position: absolute;
+    width: 300px;
+    height: 147px;
+    border-radius: 5px;
+    margin-top: 3px;
+    height: 297px;
+
+    margin-left: 5px;
+
+    @media (min-width: 721px) and (max-width: 1533px) {
+      width: 230px;
+      height: 200px;
+    }
+
+    @media (max-width: 720px) {
+      height: 196px;
+      width: 297px;
+    }
+  `;
+  const Imge = styled.img`
+    position: absolute;
+    display: flex;
+    width: 200px;
+
+    height: 147px;
+    border-radius: 5px;
+    margin-top: 3px;
+    height: 147px;
+    margin-left: 5px;
+
+    @media (min-width: 730px) and (max-width: 960px) {
+      width: 200px;
+      display: flex;
+
+      margin-left: 5px;
+      padding: 4px;
+    }
+
+    @media (max-width: 720px) {
+      margin-left: 20px;
+      margin-top: 30px;
+      width: 200px;
+      height: 80px;
+    }
   `;
 
-  const Box = styled.div``;
+  const Box = styled.div`
+    display: flex;
+    @media (max-width: 720px) {
+      margin-left: 20px;
+      margin-top: 30px;
+    }
+  `;
 
   return (
-    <Box>
-      <Wonder>
-        <Buttona>
-          <Aga>currentSongs Title</Aga>
-          <Frame></Frame>
-          <Section>
-            <Editor>Create</Editor> <Update>Update</Update>{" "}
-            <Delete>Delete</Delete>
-          </Section>
-        </Buttona>
+    <div>
+      <Box>
+        <Wonder>
+          <Buttona>
+            <Aga>{currentSongIndex}</Aga>
 
-        <Hulu>
-          <Mzmur>
-            {audios.map((lo) => (
-              <Div>
-                <Button key={lo.id}>
-                  <Title>{lo.mr} </Title>
-                  <img
-                    src={lo.url}
-                    alt="ok thank you"
-                    width="250px"
-                    height="170px"
-                  />
-                </Button>
-              </Div>
-            ))}
-            ;
-          </Mzmur>
-        </Hulu>
-      </Wonder>
-    </Box>
+            <Frame>
+              <Img src={currentSongImg}></Img>
+            </Frame>
+
+            <Section>
+              <Editor>
+                <Link to="/create">Create</Link>
+              </Editor>
+              <Update>
+                <Link to="/update">Update</Link>
+              </Update>
+              <Delete onClick={handleDelete}>Delete</Delete>
+            </Section>
+          </Buttona>
+
+          <Hulu>
+            <Mzmur>
+              {audios.map((lo) => (
+                <Div key={lo.id}>
+                  <Button>
+                    <Title>{lo.title}</Title>
+                    <Imge
+                      src={lo.url}
+                      alt="ok thank you"
+                      onClick={() => {
+                        Picturect(lo.url);
+                        Indexchr(lo.id);
+                      }}
+                    ></Imge>
+                  </Button>
+                </Div>
+              ))}
+              ;
+            </Mzmur>
+          </Hulu>
+        </Wonder>
+      </Box>
+    </div>
   );
 }
 
